@@ -1,0 +1,119 @@
+﻿@using ClothesShopApp.Models
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model EditAddressViewModel;
+    Layout = "_CustomerLayout";
+}
+<div class="bg0 m-t-50 p-b-140">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+
+
+            <div style="width:540px;height:auto;">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <form asp-action="AddAddress" method="post">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+
+                                        <label asp-for="SelectedCityId">City</label>
+                                        <select asp-for="SelectedCityId" class="form-control" id="selectedCityId" required>
+                                            <option value="">İl Seçiniz</option>
+                                            @foreach (var city in Model.Cities)
+                                            {
+                                                <option value="@city.Value">@city.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label asp-for="SelectedDistrictId">Distirct</label>
+                                        <select asp-for="SelectedDistrictId" class="form-control" id="selectedDistrictId" required>
+                                            <option value="">İlçe Seçiniz</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Address.addresses">Adres Detayları</label>
+                                <textarea asp-for="Address.addresses" class="form-control" required></textarea>
+                            </div>
+                            <div>
+                                <label asp-for="Address.addressHeader">Adres Başlığı</label>
+                                <input type="text" asp-for="Address.addressHeader" class="form-control" required />
+                            </div>
+
+
+
+                            <h3 style="margin-top:8px;">İletişim Bilgisi</h3>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label asp-for="Address.firstName">Ad</label>
+                                        <input type="text" asp-for="Address.firstName" class="form-control" required />
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label asp-for="Address.lastName">Soyad</label>
+                                        <input type="text" asp-for="Address.lastName" class="form-control" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label asp-for="Address.phone">Telefon</label>
+                                        <input type="text" asp-for="Address.phone" class="form-control" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+@section Scripts {
+    
+    <script>
+        $(function () {
+            $('#selectedCityId').change(function () {
+                var cityId = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("GetDistricts", "AddressInformation")', // Controller'ına göre güncelle
+                    type: 'GET',
+                    data: { cityId: cityId },
+                    success: function (data) {
+                        $('#selectedDistrictId').html('');
+                        $.each(data, function (index, item) {
+                            $('#selectedDistrictId').append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+   
+}

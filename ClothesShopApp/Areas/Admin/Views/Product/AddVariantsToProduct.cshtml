@@ -1,0 +1,230 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+    @model ClothesShopApp.Data.ViewModels.VariantViewModel
+}
+
+<div style="margin-left:60px;margin-right:60px;">
+    <div class="card">
+        <div class="card-body" style="width:600px">
+
+        </div>
+        <form asp-action="" method="post">
+            <input type="hidden" name="productId" id="productId" value="@Model.ProductId" />
+
+            <div class="form-group" style="margin-bottom:20px">
+                <label for="variantType">Varyant Grubu</label>
+                <select class="form-control" id="variantType" name="variantTypeId">
+                    <option value="">Varyant Seçiniz</option>
+                    @foreach (var variantType in Model.Variants)
+                    {
+                        <option value="@variantType.VariantId">@variantType.Name</option>
+                    }
+                </select>
+            </div>
+            
+            <div class="form-group" style="margin-bottom:20px">
+                <label for="variantValue">Varyant Değeri</label>
+                <select class="form-control" id="variantValue" name="variantValueId">
+
+                    <option value="">değer seçiniz</option>
+
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom:20px">
+                <label for="stock">Stok</label>
+                <input type="number" id="stock" name="stock" min="0" class="form-control" required />
+            </div>
+            <button type="submit" id="add-variant-product" class="btn btn-primary">Varyant Ekle</button>
+        </form>
+        <div class="card-body " style="width:600px">
+            <div><label for="NewCategoryName">Varyant değerleri</label></div>
+            <div id="variant-values-list" class="form-group " style="margin-bottom:20px; ">
+
+
+                @foreach (var variantType in Model.VariantTypes)
+                {
+                    <h4>@variantType.VariantTypeName</h4>
+                    <div class="d-flex " style="width:auto;">
+
+
+                        @*  @foreach (var count in variantType.Values)
+                    {
+
+                    @foreach (var value in variantType.Values)
+                    {
+                    <li>@value</li>
+                    break;
+
+                    }
+                    @foreach (var value in variantType.Stock)
+                    {
+                    <li>@value</li>
+                    break;
+                    }
+                    } *@
+                        @for (var i = 1; i <= variantType.Values.Count; i++)
+                        {
+                            var value = variantType.Values[i - 1];
+                            var stock = variantType.Stock[i - 1];
+                            var productVariantId = variantType.ProductVariantId[i - 1];
+
+
+                            <div class="card " id="variant-value-@productVariantId" style="padding:8px; margin:8px; width:auto;">
+                                <button type="submit" class="btn-close delete-variant-value" data-value-id="@productVariantId" aria-label="Close" style="height:4px;width:4px;"></button>
+                                <label>@value </label>
+                                <label>@stock adet</label>
+                            </div>
+
+
+                        }
+
+
+                    </div>
+
+                }
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            
+            $(document).on('click', '.delete-variant-value', function (event) {
+                event.preventDefault();
+
+                var valueId = $(this).data('value-id');
+
+                $.ajax({
+                    url: '/Admin/Product/DeleteProductVariantValue', // Doğru aksiyona yönlendirin
+                    type: 'POST',
+                    data: { valueId: valueId },
+                    success: function () {
+                        // Başarılı silme sonrası DOM'dan öğeyi kaldır
+                        $('#variant-value-' + valueId).remove();
+                        console.log("remoced");
+                    },
+                    error: function (error) {
+                        console.error("Silme işlemi başarısız:", error);
+                        alert("Bir hata oluştu, lütfen tekrar deneyin.");
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            
+            $('#variantType').change(function () {
+                console.log("basildi");
+                var id = $(this).val();
+                console.log(id);
+                $.ajax({
+                    url: '@Url.Action("GetVariantValue", "Product")', // Controller'ına göre güncelle
+                    type: 'GET',
+                    data: { id: id },
+                    success: function (data) {
+                        $('#variantValue').html('');
+                        $.each(data, function (index, item) {
+                            $('#variantValue').append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                    }
+                });
+            });
+            
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            // Varyant ekleme formunu dinle
+            $('#add-variant-product').on('click', function (event) {
+                event.preventDefault();
+
+                var productId = $('#productId').val();
+                var variantValueId = $('#variantValue').val();
+                var stock = $('#stock').val();
+
+                $.ajax({
+                    url: '/Admin/Product/AddVariantsToProduct',
+                    type: 'POST',
+                    data: {
+                        productId: productId,
+                        variantValueId: variantValueId,
+                        stock:stock,
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response != null) {
+                            
+                            if (response.variantTypes) {
+                                $('#variant-values-list').empty();
+                                response.variantTypes.forEach(function (variantType) {
+                                    
+                                    // Varyant türü başlığı
+                                    var variantTypeHtml = `
+                                        <div id="variant-type-${variantType.variantTypeId}">
+                                            <h4>${variantType.variantTypeName}</h4>
+                                            <div class="d-flex">
+                                                
+                                                   `;
+
+                                    // Varyant değerlerini ve stoklarını listeye ekleyin
+                                    for (var i = 0; i < variantType.values.length; i++) {
+                                        var value = variantType.values[i];
+                                        var stock = variantType.stock[i]; // Stok bilgisi, değerle aynı indekste olmalı
+                                        var productVariantId = variantType.productVariantId[i];
+
+                                        variantTypeHtml += `
+                                            <div class="d-flex" style="margin-right:10px;">
+                                                <div class="card" style="padding:8px;">
+                                                        <button type="submit" class="btn-close delete-variant-value" data-value-id="${productVariantId}" aria-label="Close" style="height:4px;width:4px;"></button>
+                                                    <label>${value}</label>
+                                                            <label>${stock} adet</label>
+                                                </div>
+                                            </div>`;
+                                    }
+
+                                    // Ul listesini ve div kapanışını ekleyin
+                                    variantTypeHtml += `
+                                                </div>
+                                            
+                                        </div>`;
+
+                                    // Oluşan HTML'i sayfadaki belirli bir konteynere ekleyin
+                                    $('#variant-values-list').append(variantTypeHtml);
+                                });
+                                // Formu temizle
+                                $('#variant-name').val('');
+                            }else {
+                                console.error("VariantValues dizisi beklenmedik formatta veya tanımlı değil.");
+                            }
+                            
+
+                           
+                        } else {
+                            console.error("VariantValues dizisi beklenmedik formatta veya tanımlı değil.");
+                        }
+
+                    },
+                    error: function (error) {
+                        console.error("Varyant ekleme başarısız:", error);
+                        alert("Bir hata oluştu, lütfen tekrar deneyin.");
+                    }
+                });
+            });
+        });
+    </script>
+   
+}

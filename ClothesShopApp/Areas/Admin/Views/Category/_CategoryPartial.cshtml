@@ -1,0 +1,161 @@
+﻿@using ClothesShopApp.Data.ViewModels
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model CategoryViewModel
+
+
+
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="~/css/site.css">
+    
+    <style>
+        .category-header {
+            font-size: 20px; /* Kategori adının boyutunu büyütmek için */
+            font-weight: bold; /* Kategori adını kalın yapmak için */
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #ddd;
+            margin-right:50px;
+            padding:4px;
+        }
+        
+
+        .toggle-subcategories {
+            font-size: 16px; /* Butonun yazı boyutunu büyütmek için */
+            padding: 5px 10px; /* Butonun iç boşluklarını artırmak için */
+            cursor: pointer; /* Buton üzerine gelindiğinde fare işaretçisini pointer yapmak için */
+            border-radius: 5px; /* Butonun köşelerini yuvarlatmak için */
+        }
+
+        
+
+        .category-image {
+            max-width: 200px; /* Görselin maksimum genişliği */
+            max-height: 100px; /* Görselin maksimum yüksekliği */
+            border: 1px solid #ddd; /* Görsele sınır eklemek için */
+            border-radius: 5px; /* Görselin köşelerini yuvarlatmak için */
+            margin-left:auto;
+            margin-right: 100px;
+        }
+
+        .toggle-subcategories {
+            margin-right: 10px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            
+        }
+
+        .category-header button:focus {
+            outline: none;
+        }
+
+
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            
+            margin-left: auto; /* Butonların sağ tarafa hizalanması için */
+        }
+
+        .action-buttons .btn {
+            padding: 5px 10px; /* Butonların iç boşluklarını ayarlamak için */
+            font-size: 16px; /* Butonların yazı boyutunu ayarlamak için */
+            border-radius: 5px; /* Butonların köşelerini yuvarlatmak için */
+        }
+
+    </style>
+</head>
+
+
+<div class="category-item" style="margin-left:@(Model.Level * 20)px;">
+    
+        <div class="category-header" data-category-id="@Model.CategoryId">
+            @if (Model.SubCategories.Any())
+            {
+                <button class="toggle-subcategories">▼</button>
+            }
+            <span>@Model.Name</span>
+            <img src="~/images/@Model.Picture" alt="Category Image" class="category-image" />
+            <div class="action-buttons">
+                <form asp-action="EditCategory" asp-area="Admin" method="get">
+                    <input type="hidden" name="id" value="@Model.CategoryId" />
+                    <button type="submit" class="btn btn-danger">Güncelle</button>
+
+                </form>
+            <form class="delete-category-form" asp-action="DeleteCategory" method="post">
+                    <input type="hidden" asp-for="CategoryId" value="@Model.CategoryId" />
+                    <button type="submit" class="delete-button btn btn-danger">Sil</button>
+
+                </form>
+            </div>
+     
+        
+    </div>
+    
+    <div class="subcategories" style="display:none;">
+        @foreach (var subCategory in Model.SubCategories)
+        {
+            @await Html.PartialAsync("_CategoryPartial", subCategory)
+        }
+    </div>
+</div>
+
+ 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        // Silme formu gönderme işlemi
+        $(document).off('submit', '.delete-category-form').on('submit', '.delete-category-form', function (e) {
+            e.preventDefault(); // Formun varsayılan submit işlemini engelle
+
+            var form = $(this);
+            var formData = form.serialize(); // Form verilerini seri hale getir
+            var url = form.attr('action'); // Formun action URL'sini al
+
+            if (confirm("Silmek istediğinize emin misiniz?")) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    success: function (result) {
+                        // Silme işlemi başarılı ise yapılacak işlemler
+                        alert('Kategori silindi.');
+                        form.closest('.category-item').remove(); // Kategoriyi sayfadan kaldır
+                    },
+                    error: function () {
+                        // Hata durumunda yapılacak işlemler
+                        alert('Silme işlemi başarısız oldu.');
+                    }
+                });
+            }
+        });
+
+        // Toggle butonlarını bağla
+        function attachToggleHandlers() {
+            $(document).off('click', '.toggle-subcategories').on('click', '.toggle-subcategories', function () {
+                var subcategories = $(this).closest('.category-item').find('.subcategories').first();
+                subcategories.toggle();
+                $(this).text(subcategories.is(':visible') ? '▼' : '►');
+            });
+        }
+
+        // İlk sayfa yüklemesinde olayları bağla
+        attachToggleHandlers();
+    });
+</script>
+
+
+
+

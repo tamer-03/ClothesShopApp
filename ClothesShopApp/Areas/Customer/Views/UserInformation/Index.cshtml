@@ -1,0 +1,343 @@
+﻿@using ClothesShopApp.Data.ViewModels
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_CustomerLayout";
+    @model CustomerInformationViewModel;
+
+}
+
+<div class="bg0 p-t-75 p-b-105 m-l-50">
+    <div class="container ">
+        <div class="d-flex justify-content-center ">
+
+            <div class="col-md-10 col-lg-8 col-xxl-5">
+                <div class="card mb-0 ">
+                    <div class="card-body">
+                        <h2>Hesap </h2>
+                        <form class="accountForm" method="post" asp-action="UpdateUserInformation">
+                            
+                            <!--birinci satır-->
+                            <div class="row">
+
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label">Ad</label>
+                                        <input type="text" class="form-control" asp-for="name" id="exampleInputtext1" aria-describedby="textHelp" placeholder="@Model.name">
+
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label">Soyad</label>
+                                        <input type="text" class="form-control" asp-for="lastName" id="exampleInputtext2" aria-describedby="textHelp" placeholder="@Model.lastName">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ikinxci satır -->
+                            <div class="row">
+
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">E-Posta</label>
+                                        <input type="email" class="form-control" asp-for="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="@Model.email">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- üçüncü Satır -->
+                            <!--dördüncü satır-->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="exampleInputtext2" class="form-label">telefon</label>
+                                        <input type="text" asp-for="phone" class="form-control" id="exampleInputtext2" aria-describedby="textHelp" placeholder="@Model.phone">
+                                    </div>
+                                </div>
+                               
+                                
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="exampleInputtext1" class="form-label">T.C</label>
+                                        
+                                            <input type="text" asp-for="identityNumber" class="form-control" id="identityNumber" pattern="d/{11}" title="11 haneli değer giriniz" placeholder="@Model.identityNumber">
+                                        
+                                       
+                                    </div>
+                                </div>
+                                 
+                                
+                                
+
+
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Güncelle</button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-10 col-lg-8 col-xxl-5">
+                <div class="card mb-0">
+                    <div class="card-body">
+                        <h2>Şifre Değiştirme</h2>
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+
+                        @if (ViewBag.SuccessMessage != null)
+                        {
+                            <div class="alert alert-success">
+                                @ViewBag.SuccessMessage
+                            </div>
+                        }
+                        <form class="passwordForm" method="post" asp-action="UpdateUserPassword">
+                            <!--birinci satır-->
+                            <div class="row">
+
+
+                                <div class="col">
+                                    <div class="mb-4">
+                                        <label class="form-label">Mevcut Şifre</label>
+                                        <div class="d-flex">
+                                            <input type="password" asp-for="password" class="form-control" id="passwordInput" placeholder="Şifre" required>
+                                            <span id="togglePassword">
+                                                <i class="zmdi zmdi-eye-off" style="height:16px;width:16px;cursor:pointer;margin-left:4px;"></i>
+                                            </span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ikinxci satır -->
+                            <div class="row">
+
+
+                                <div class="col">
+                                    <div class="mb-4">
+                                        <label class="form-label">Yeni Şifre</label>
+                                        <div class="d-flex">
+                                            <input type="password" asp-for="password1" class="form-control" id="passwordInput1" placeholder="Yeni Şifre" required>
+                                            <span id="togglePassword1">
+                                                <i class="zmdi zmdi-eye-off" style="height:16px;width:16px;cursor:pointer;margin-left:4px;"></i>
+                                            </span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--dördüncü satır-->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-4">
+                                        
+                                        <label class="form-label">Yeni Şifre</label>
+                                        <div class="d-flex">
+                                            <input type="password" asp-for="password2" class="form-control" id="passwordInput2" placeholder="Yeni Şifre" required>
+                                            <span id="togglePassword2">
+                                                <i class="zmdi zmdi-eye-off" style="height:16px;width:16px;cursor:pointer;margin-left:4px;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--beşince satır-->
+
+                            <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Güncelle</button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.passwordForm').on('submit', function (e) {
+                e.preventDefault();
+
+                // Önceki mesajları temizle
+                $('.alert-danger').remove();
+                $('.alert-success').remove();
+
+                var formData = $(this).serialize(); // Form verilerini al
+                var form = $(this);
+
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'),
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            // Başarı mesajını ekranda göster
+                            form.prepend("<div class='alert alert-success'>Şifre başarıyla güncellendi.</div>");
+                            //input clear
+                            form[0].reset();
+                        } else {
+                            // Hata mesajlarını ekranda göster
+                            var errorMessages = "<div class='alert alert-danger'><ul>";
+                            response.errors.forEach(function (error) {
+                                errorMessages += "<li>" + error + "</li>";
+                            });
+                            errorMessages += "</ul></div>";
+                            form.prepend(errorMessages);
+                        }
+                        setTimeout(function () {
+                            $('.alert').fadeOut('slow', function () {
+                                $(this).remove();
+                            });
+                        },3000);
+                    },
+                    error: function () {
+                        // Genel hata mesajı
+                        form.prepend("<div class='alert alert-danger'>Bir hata oluştu, lütfen tekrar deneyin.</div>");
+                        setTimeout(function () {
+                            $('.alert').fadeOut('slow', function () {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    }
+
+                });
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.accountForm').on('submit', function (e) {
+                e.preventDefault();
+
+                // Önceki mesajları temizle
+                $('.alert-danger').remove();
+                $('.alert-success').remove();
+
+                var formData = $(this).serialize(); // Form verilerini al
+                var form = $(this);
+
+                var identityNumber = $('#identityNumber').val();
+
+                // Kimlik numarasının uzunluğu 11 değilse form gönderilmez ve uyarı gösterilir
+                if (identityNumber.length !== 11) {
+                    e.preventDefault();  // Formun gönderilmesini engeller
+                    alert("Kimlik numarası 11 haneli olmalıdır.");
+                    return false;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'),
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            // Başarı mesajını ekranda göster
+                            form.prepend("<div class='alert alert-success'>Güncelleme başarılı.</div>");
+                            //input clear
+                            
+                        } else {
+                            // Hata mesajlarını ekranda göster
+                            var errorMessages = "<div class='alert alert-danger'><ul>";
+                            response.errors.forEach(function (error) {
+                                errorMessages += "<li>" + error + "</li>";
+                            });
+                            errorMessages += "</ul></div>";
+                            form.prepend(errorMessages);
+                        }
+                        setTimeout(function () {
+                            $('.alert').fadeOut('slow', function () {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    },
+                    error: function () {
+                        // Genel hata mesajı
+                        form.prepend("<div class='alert alert-danger'>Bir hata oluştu, lütfen tekrar deneyin.</div>");
+                        setTimeout(function () {
+                            $('.alert').fadeOut('slow', function () {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    }
+
+                });
+            });
+           
+        });
+        
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#togglePassword').on('click', function () {
+                var passwordInput = $('#passwordInput');
+                var icon = $(this).find('i');
+
+                // Şifre alanının türünü kontrol et ve değiştir
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    // İkonu 'göz kapalı' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye-off').addClass('zmdi-eye');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    // İkonu 'göz açık' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye').addClass('zmdi-eye-off');
+
+                }
+            });
+            $('#togglePassword1').on('click', function () {
+                var passwordInput = $('#passwordInput1');
+                var icon = $(this).find('i');
+
+                // Şifre alanının türünü kontrol et ve değiştir
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    // İkonu 'göz kapalı' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye-off').addClass('zmdi-eye');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    // İkonu 'göz açık' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye').addClass('zmdi-eye-off');
+
+                }
+            });
+            $('#togglePassword2').on('click', function () {
+                var passwordInput = $('#passwordInput2');
+                var icon = $(this).find('i');
+
+                // Şifre alanının türünü kontrol et ve değiştir
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    // İkonu 'göz kapalı' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye-off').addClass('zmdi-eye');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    // İkonu 'göz açık' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye').addClass('zmdi-eye-off');
+
+                }
+            });
+        });
+    </script>
+}
+

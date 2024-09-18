@@ -1,0 +1,285 @@
+﻿@using ClothesShopApp.Models
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+    @model RegisterViewModel;
+
+}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modernize Free</title>
+    <link rel="shortcut icon" type="image/png" href="~/assets-login/images/logos/favicon.png" />
+    <link rel="stylesheet" href="~/assets-login/css/styles.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/template/fonts/iconic/css/material-design-iconic-font.min.css">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center w-100">
+                <div class="row justify-content-center w-100">
+                    <div class="col-md-10 col-lg-8 col-xxl-5">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <a asp-action="Index" asp-controller="HomePage" asp-area="WebPage" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                                    <img src="~/template/images/icons/logo-01.png" width="180" alt="">
+                                </a>
+                                <form method="post" asp-action="Index" asp-controller="Register" asp-area="Account">
+                                    <!--birinci satır-->
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                @*<label for="exampleInputtext1" class="form-label">Ad</label>*@
+                                                <input type="text" class="form-control" asp-for="name" id="exampleInputtext1" aria-describedby="textHelp" placeholder="Ad" required>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                @*<label for="exampleInputtext2" class="form-label">Soyad</label>*@
+                                                <input type="text" class="form-control" asp-for="lastName" id="exampleInputtext2" aria-describedby="textHelp" placeholder="Soyad" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ikinxci satır -->
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <div class="mb-4">
+                                                @*<label for="exampleInputPassword1" class="form-label"></label>*@
+                                                <input type="text" asp-for="intentityNumber" class="form-control" id="exampleInputPassword1" pattern="\d{11}" title="eksik veya fazla girdiniz" placeholder="kimlik no(isteğe bağlı)">
+                                                <span asp-validation-for="intentityNumber" class="text-danger"></span>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+
+                                    <!-- üçüncü satır -->
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                @*<label for="exampleInputtext2" class="form-label">Soyad</label>*@
+                                                <input type="text" class="form-control" asp-for="phone" pattern="\d{10}" title="eksik veya fazla girdiniz" id="exampleInputtext2" aria-describedby="textHelp" placeholder="Telefon" required>
+                                                <span asp-validation-for="phone" class="text-danger"></span>
+                                                
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    
+                                    <!-- dördüncü Satır -->
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                @*<label for="exampleInputEmail1" class="form-label">E-Posta</label>*@
+                                                <input type="email" class="form-control" asp-for="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="E-Posta" required>
+                                                <span asp-validation-for="email" class="text-danger"></span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <!--beşince satır-->
+                                    <div class="row">
+                                        
+                                        <div class="col">
+                                            <div class="mb-4 d-flex" >
+                                                @*<label for="exampleInputPassword1" class="form-label"></label>*@
+                                                <input type="password" asp-for="password" class="form-control" id="passwordInput" placeholder="Şifre" required>
+                                                <span class="input-group-text" id="togglePassword">
+                                                    <i class="zmdi zmdi-eye-off" style="height:16px;width:16px;cursor:pointer;margin-left:4px;"></i>
+                                                </span>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-4 d-flex">
+                                                @*<label for="exampleInputPassword1" class="form-label"></label>*@
+                                                <input type="password" asp-for="password1" class="form-control" id="passwordInput1" placeholder="Şifre tekrar" required>
+                                                <span class="input-group-text" id="togglePassword1">
+                                                    <i class="zmdi zmdi-eye-off" style="height:16px;width:16px;cursor:pointer;margin-left:4px;"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        @* <div class="col">
+                                            <div class="mb-3">
+                                                <label for="exampleInputtext1" class="form-label">Ad</label>
+                                                <input type="date" name="dogumTarihi" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" placeholder="Doğum Tarihi">
+                                            </div>
+                                        </div> *@
+
+
+                                    </div>
+                                    <span asp-validation-for="password" class="text-danger"></span>
+
+                                    <!--beşince satır-->
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+
+                                                <label asp-for="selectedCityId">Şehir</label>
+                                                <select asp-for="selectedCityId" class="form-control" id="selectedCityId">
+                                                    <option value="">İl Seçiniz</option>
+                                                    @foreach (var city in Model.cities)
+                                                    {
+                                                        <option value="@city.Value">@city.Text</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        @* <div class="col">
+                                        <div class="mb-4">
+
+                                        </div>
+                                        </div> *@
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label asp-for="selectedDistrictId">İlçe</label>
+                                                <select asp-for="selectedDistrictId" class="form-control" id="selectedDistrictId">
+                                                    <option value="">İlçe Seçiniz</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Kayıt Ol</button>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <p class="fs-4 mb-0 fw-bold">Zaten bir hesabınız var mı?</p>
+                                        <a class="text-primary fw-bold ms-2" asp-action="Index" asp-controller="Login" asp-area="Account">Giriş Yap</a>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/assets-login/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/assets-login/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            // Dropdown değiştiğinde çalışacak kod
+            $('#selectedCityId').change(function () {
+                loadDistricts($(this).val());
+            });
+
+            // Sayfa yüklendiğinde seçili bir şehir varsa bu fonksiyon çalışır
+            var selectedCityId = $('#selectedCityId').val();
+            if (selectedCityId) {
+                loadDistricts(selectedCityId);
+            }
+
+            // İlçeleri yükleyen fonksiyon
+            function loadDistricts(cityId) {
+                if (cityId) {
+                    $.ajax({
+                        url: '@Url.Action("GetDistricts", "Register")',
+                        type: 'GET',
+                        data: { cityId: cityId },
+                        success: function (data) {
+                            $('#selectedDistrictId').html('');
+                            $.each(data, function (index, item) {
+                                $('#selectedDistrictId').append('<option value="' + item.value + '">' + item.text + '</option>');
+                            });   
+                        }
+                    });
+                }
+            }
+        });
+
+    </script>
+    @if (TempData["Succes"] != null)
+    {
+        <script>
+
+            $(document).ready(function () {
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+
+                Toast.fire({
+                    icon: "success",
+                    title: "Kayıt Başarılı"
+                });
+
+
+
+            });
+
+        </script>
+    }
+    <script>
+        $(document).ready(function () {
+            $('#togglePassword').on('click', function () {
+                var passwordInput = $('#passwordInput');
+                var icon = $(this).find('i');
+
+                // Şifre alanının türünü kontrol et ve değiştir
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    // İkonu 'göz kapalı' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye-off').addClass('zmdi-eye');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    // İkonu 'göz açık' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye').addClass('zmdi-eye-off');
+                    
+                }
+            });
+        });
+        $(document).ready(function () {
+            $('#togglePassword1').on('click', function () {
+                var passwordInput = $('#passwordInput1');
+                var icon = $(this).find('i');
+
+                // Şifre alanının türünü kontrol et ve değiştir
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    // İkonu 'göz kapalı' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye-off').addClass('zmdi-eye');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    // İkonu 'göz açık' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye').addClass('zmdi-eye-off');
+
+                }
+            });
+        });
+    </script>
+    
+</body>
+
+</html>

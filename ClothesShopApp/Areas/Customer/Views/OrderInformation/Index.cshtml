@@ -1,0 +1,235 @@
+﻿@using ClothesShopApp.Data.Entity
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model List<OrderViewModel>;
+    Layout = "_CustomerLayout";
+}
+
+
+<style>
+    .btn-remove {
+        width: 36px;
+        height: 36px;
+        border: 1px solid black; /* Siyah border */
+        border-radius: 8px; /* Köşe yuvarlama */
+        display: flex;
+        align-items: center; /* Yatayda ortalama */
+        justify-content: center; /* Dikeyde ortalama */
+        background-color: #f8f9fa; /* Arka plan rengi */
+        cursor: pointer; /* Tıklanabilir kursor */
+        transition: background-color 0.3s, border-color 0.3s; /* Geçiş efekti */
+    }
+
+        .btn-remove i {
+            font-size: 16px; /* İkon boyutu */
+            color: black; /* İkon rengi */
+        }
+
+        .btn-remove:hover {
+            background-color: #e9ecef; /* Hoverda arka plan rengi */
+            border-color: #007bff; /* Hoverda border rengi */
+        }
+
+    img {
+        cursor: pointer;
+    }
+
+        img:hover {
+            background-color: #e9ecef;
+        }
+
+</style>
+
+
+<div class="bg0 m-t-50 m-b-300 p-b-140">
+
+    <div class="container" id="order-container">
+        <div class="d-flex justify-content-center">
+            <div class="block1 p-all-10 "style="width:750px; height:auto">
+                <h2>Siparişlerim</h2>
+                @if(Model.Count == 0)
+                {
+                    
+                    <div class="card mb-4 d-flex justify-content-center" style="width:700px;">
+                                
+                        <div>
+                            <h1>Henüz Siparişin yok</h1>
+                        </div>
+                        <span>
+                            Şimdi ve daha sonra yapacağın tüm siparişleri burada görüntüleyebilirsin
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    
+                    @foreach (var order in Model)
+                    {
+                        
+                        <div class="card mb-4" style="width:700px;">
+                            <div class="card-header">
+                                <div class="m-b-5">
+                                    Sipariş No: @order.OrderId - Toplam Tutar: $@order.TotalPrice
+                                </div>
+                                <div style="color:forestgreen">
+                                    Sipariş Durumu: @order.OrderStatus
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ürün</th>
+                                            <th>Adet</th>
+                                            <th>Fiyat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in order.OrderItems)
+                                        {
+                                            <tr>
+                                                <td class="product-col">
+                                                    <img src="@item.ImageUrl" alt="Ürün Resmi" style="width: 50px;" data-product-id="@item.ProductId" />
+                                                    @item.ProductName
+                                                </td>
+                                                <td>@item.Quantity</td>
+                                                <td>$@item.Price</td>
+                                                @if (order.OrderStatus == "Şiparişiniz Teslim Edildi")
+                                                {
+                                                    <td>
+                                                        <a asp-controller="Review" asp-action="Index" asp-route-productId="@item.ProductId">Değerlendir</a>
+                                                    </td>
+                                                }
+                                                
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                }
+               
+            </div>
+        </div>
+    </div>
+   
+
+</div>
+
+
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).on('click', '.product-col img', function () {
+            // "data-product-id" attribute'undan ürün ID'sini alıyoruz
+            var productId = $(this).data('product-id');
+
+            // Sayfayı ürün detayına yönlendiriyoruz
+            window.location.href = '/WebPage/Product/ProductDetail?productId=' + productId;
+        });
+    </script>
+
+    <script>
+
+
+
+        let page = 1;
+        let isLoading = false;
+        const pageSize = 5;
+
+        function loadOrders() {
+            if (isLoading) return;
+            isLoading = true;
+
+            $.ajax({
+                url: '/Customer/OrderInformation/LoadOrders', // API endpoint
+                data: { page: page, pageSize: pageSize },
+                success: function (data) {
+                    console.log(data);
+                    console.log(Array.isArray(data));
+                    console.log(Array.isArray(data.$values));
+                    if (Array.isArray(data.$values) || Array.isArray(data)) {
+
+                        let orders = data.$values;
+                        orders.forEach(order => {
+
+                            let orderItems = order.OrderItems.$values;
+                            let orderHtml = `
+                                    <div class="d-flex justify-content-center">
+                                        <div class="block1 p-all-10 d-flex justify-content-center" style="width:650px; height:auto">
+                                             <div class="card mb-4" style="width:650px;">
+                                                <div class="card-header d-flex justify-content-start">
+                                                    <div class ="m-b-5">
+                                                        Sipariş No: ${order.OrderId} - Toplam Tutar: $${order.TotalPrice}
+                                                    </div>
+                                                    <div class="m-b-5">
+                                                        Sipariş Durumu: ${order.OrderStatus}
+                                                    </div>
+                                                 </div>
+                                                 <div class="card-body">
+                                                      <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Ürün</th>
+                                                                <th>Adet</th>
+                                                                <th>Fiyat</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>`;
+
+                            orderItems.forEach(item => {
+
+
+
+
+                                orderHtml += `
+                                                        <tr>
+                                                            <td class="product-col">
+                                                                  <img src="${item.ImageUrl}" alt="Ürün Resmi" style="width: 50px;" data-product-id="${item.ProductId}"/>
+                                                                        ${item.ProductName}
+                                                            </td>
+                                                                    <td>${item.Quantity}</td>
+                                                                    <td>$${item.Price}</td>
+                                                        </tr>`;
+                            });
+
+                            orderHtml += `
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+
+                            $('#order-container').append(orderHtml);
+                            console.log("append edildi");
+                        });
+                        page++;
+                    } else {
+                        console.log("Boş veri döndü veya data undefined");
+                    }
+                    isLoading = false;
+                },
+                error: function () {
+                    isLoading = false;
+                }
+            });
+        }
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                loadOrders();
+            }
+        });
+
+        // İlk yükleme
+        //loadOrders();
+    </script>
+}

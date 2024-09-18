@@ -1,0 +1,36 @@
+﻿@using ClothesShopApp.Data.ViewModels
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+}
+@model CategoryViewModel
+
+<div style="margin-left:60px;margin-right:60px;">
+    <form asp-action="EditCategory" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="CategoryId" />
+        <input type="hidden" asp-for="ParentId" />
+        <input type="hidden" asp-for="Picture" />
+
+        <div class="form-group">
+            <h2>@Model.Name</h2>
+        </div>
+
+        <div class="form-group">
+            <label for="NewName">Yeni İsim</label>
+            <input type="text" asp-for="Name" class="form-control" placeholder="Enter new category name" required />
+        </div>
+        <div class="img-container">
+            <img src="~/images/@Model.Picture" alt="Product Image" class="img-thumbnail" style="max-width: 150px; height: 100px; margin: 5px;" />
+
+
+            <input type="file" name="UpdatedImages" /> Güncelle
+        </div>
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+    </form>
+
+</div>
+
+
+

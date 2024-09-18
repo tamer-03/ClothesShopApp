@@ -1,0 +1,47 @@
+﻿@using ClothesShopApp.Data.ViewModels
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+*@
+@{
+    Layout = "_AdminLayout";
+}
+@model List<CategoryViewModel>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<div style="margin-top:50px; margin-left:50px; ">
+    <h2>Kategoriler</h2>
+    @foreach (var category in Model)
+    {
+        @await Html.PartialAsync("_CategoryPartial", category)
+    }
+    
+</div>
+
+
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+
+            Toast.fire({
+                icon: 'success',
+                title: '@TempData["SuccessMessage"]'
+            });
+        });
+    </script>
+}

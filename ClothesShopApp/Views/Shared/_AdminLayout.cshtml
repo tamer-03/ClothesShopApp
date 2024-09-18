@@ -1,0 +1,218 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modernize Free</title>
+    <link rel="shortcut icon" type="image/png" href="../assets-login/images/logos/favicon2.png" />
+    <link rel="stylesheet" href="../assets-login/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <ul class="navbar-nav">
+                <li class="nav-item d-block d-xl-none">
+                    <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                        <i class="ti ti-menu-2"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                        <i class="ti ti-bell-ringing"></i>
+                        <div class="notification bg-primary rounded-circle"></div>
+                    </a>
+                </li>
+            </ul>
+            <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+                <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                   
+                    <li class="nav-item dropdown">
+                       
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                            <div class="message-body">
+                                <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                    <i class="ti ti-user fs-6"></i>
+                                    <p class="mb-0 fs-3">My Profile</p>
+                                </a>
+                                <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                    <i class="ti ti-mail fs-6"></i>
+                                    <p class="mb-0 fs-3">My Account</p>
+                                </a>
+                                <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                    <i class="ti ti-list-check fs-6"></i>
+                                    <p class="mb-0 fs-3">My Task</p>
+                                </a>
+                                <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    
+        <!--  Body Wrapper -->
+        <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+            <!-- Sidebar Start -->
+            <aside class="left-sidebar">
+                <!-- Sidebar scroll-->
+                <div>
+                    <div class="brand-logo d-flex align-items-center justify-content-between">
+                        <a href="" class="text-nowrap logo-img">
+                            @* <img src="../assets-login/images/favicon.png" width="180" alt="" /> *@
+                        </a>
+                        <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                            <i class="ti ti-x fs-8"></i>
+                        </div>
+                    </div>
+                    <!-- Sidebar navigation-->
+                    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                        <ul id="sidebarnav">
+
+                            <li class="nav-small-cap mb-2">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Kategori işelmleri</span>
+                            </li>
+
+                           
+
+
+                                <li class="sidebar-item mb-3">
+                                    <a class="sidebar-link" asp-action="Index" asp-controller="Category" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-cards"></i>
+                                        </span>
+
+                                        <span class="hide-menu">Kategoriler</span>
+                                    </a>
+                                </li>
+                        <li class="sidebar-item mb-3">
+                            <a class="sidebar-link" asp-action="CreateCategory" asp-controller="Category" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cards"></i>
+                                </span>
+
+                                <span class="hide-menu">Kategori Ekle</span>
+                            </a>
+                        </li>
+                        
+
+
+                        <li class="nav-small-cap mb-2">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Ürün işelmleri</span>
+                        </li>
+
+                        <li class="sidebar-item mb-3">
+                            <a class="sidebar-link" asp-action="Index" asp-controller="Product" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cards"></i>
+                                </span>
+
+                                <span class="hide-menu">Ürünler</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item mb-3">
+                            <a class="sidebar-link" asp-action="CreateProduct" asp-controller="Product" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cards"></i>
+                                </span>
+
+                                <span class="hide-menu">Ürün Ekle</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-small-cap mb-2">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Varyant işelmleri</span>
+                        </li>
+
+                        <li class="sidebar-item mb-3">
+                            <a class="sidebar-link" asp-action="Index" asp-controller="Variant" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cards"></i>
+                                </span>
+
+                                <span class="hide-menu">Varyantlar</span>
+                            </a>
+                        </li>
+                            
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Hesap</span>
+                            </li>
+
+                          
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" asp-action="Login" asp-controller="" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-logout"></i>
+                                    </span>
+                                    <span class="hide-menu">Çıkış yap</span>
+                                </a>
+                            </li>
+
+
+                        </ul>
+
+                    </nav>
+                    <!-- End Sidebar navigation -->
+                </div>
+                <!-- End Sidebar scroll-->
+            </aside>
+            <!--  Sidebar End -->
+            <!--  Main wrapper -->
+            <div class="body-wrapper">
+                <!--  Header Start -->
+                @*
+            <header class="app-header">
+            <nav class="navbar navbar-expand-lg navbar-light">
+            <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+            <i class="ti ti-menu-2"></i>
+            </a>
+            </li>
+
+            </ul>
+
+            </nav>
+            </header>
+            *@
+
+
+                <!--  Header End -->
+                @RenderBody()
+            </div>
+        </div>
+    
+
+
+
+    <script src="../assets-login/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets-login/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets-login/js/app.min.js"></script>
+    <script src="../assets-login/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../assets-login/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../assets-login/js/dashboard.js"></script>
+    <script src="../assets-login/js/sidebarmenu.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

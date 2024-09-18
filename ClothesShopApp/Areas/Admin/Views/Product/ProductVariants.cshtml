@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+    @model ClothesShopApp.Data.ViewModels.ProductVariantsViewModel
+
+}
+<div class="card w-300 justify-content-center">
+
+    @foreach (var variantType in Model.VariantTypes)
+    {
+        <h4>@variantType.VariantTypeName</h4>
+        <div class="d-flex">
+            <ul class="d-flex">
+                @foreach(var count in variantType.Values)
+                {
+                    @foreach (var value in variantType.Values)
+                    {
+                        <li>@value</li>
+                        break;
+
+                    }
+                    @foreach (var value in variantType.Stock)
+                    {
+                        <li>@value</li>
+                        break;
+                    }
+                }
+                
+
+            </ul>
+        </div>
+        
+    }
+    <div>
+        <form asp-action="AddVariantsToProduct" method="get">
+            <input type="hidden" name="productId" value="@Model.ProductId" />
+            <button type="submit" class="btn btn-primary">Ekle</button>
+        </form>
+
+    </div>
+    <a asp-action="Index" class="btn btn-primary w-50">Geri Dön</a>
+
+</div>
+
+

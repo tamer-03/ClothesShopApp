@@ -1,0 +1,22 @@
+﻿@using ClothesShopApp.Data.Entity
+@{
+    Layout = "_AdminLayout";
+    
+}
+@model Variant
+
+<form asp-action="EditVariant" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="VariantId" />
+    <div class="form-group " style="padding:32px;">
+        <div class="form-group" style="padding-bottom:8px;">
+            <label for="NewName">Yeni Varyant</label>
+            <input type="text" asp-for="Name" class="form-control" placeholder="Enter new category name" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+    </div>
+
+    
+   
+</form>
+

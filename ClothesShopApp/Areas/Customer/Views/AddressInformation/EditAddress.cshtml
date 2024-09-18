@@ -1,0 +1,124 @@
+﻿@using ClothesShopApp.Models
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model EditAddressViewModel
+    Layout = "_CustomerLayout";
+}
+<div class="bg0 m-t-50 p-b-200">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+
+
+            <div style="width:540px;height:auto;">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <form asp-action="EditAddress" method="post">
+                            <input asp-for="Address.addressId" type="hidden"/>
+                            <div class="mb-3">
+                                <label asp-for="Address.addressHeader">Adres Başlığı</label>
+                                <input asp-for="Address.addressHeader" class="form-control" placeholder="@Model.Address.addressHeader" />
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+
+                                        <label asp-for="SelectedCityId">City</label>
+                                        <select asp-for="SelectedCityId" class="form-control" id="selectedCityId">
+                                            <option value="">@Model.Address.Location.parentLocation.name</option>
+                                            @foreach (var city in Model.Cities)
+                                            {
+                                                <option value="@city.Value">@city.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label asp-for="SelectedDistrictId">Distirct</label>
+                                        <select asp-for="SelectedDistrictId" class="form-control" id="selectedDistrictId">
+                                            <option value="">@Model.Address.Location.name</option>
+                                        </select>
+                                        <input type="hidden" asp-for="Address.Location.locationId" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Address.addresses">Adres Detayları</label>
+                                <textarea asp-for="Address.addresses" class="form-control">@Model.Address.addresses</textarea>
+                            </div>
+
+                            <h3 style="margin-top:12px;">İletişim Bilgisi</h3>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label asp-for="Address.firstName">Adres Başlığı</label>
+                                            <input type="text" class="form-control" asp-for="Address.firstName" placeholder="@Model.Address.firstName" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label asp-for="Address.lastName" >Adres Başlığı</label>
+                                            <input type="text" class="form-control" asp-for="Address.lastName" placeholder="@Model.Address.lastName" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label asp-for="Address.phone" >Telefon</label>
+                                            <input type="text" class="form-control" asp-for="Address.phone" placeholder="@Model.Address.phone" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <button type="submit" class="btn btn-primary" style="width:auto">Güncelle</button>
+                            </div>
+                            
+                            
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+@section Scripts {
+    
+    <script>
+        $(function () {
+            $('#selectedCityId').change(function () {
+                var cityId = $(this).val();
+                $.ajax({
+                    url: '/Customer/AddressInformation/GetDistricts', // Controller'ına göre güncelle
+                    type: 'GET',
+                    data: { cityId: cityId },
+                    success: function (data) {
+                        console.log(data);
+                        $('#selectedDistrictId').html('');
+
+                        $.each(data, function (index, item) {
+                            $('#selectedDistrictId').append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    
+}
+

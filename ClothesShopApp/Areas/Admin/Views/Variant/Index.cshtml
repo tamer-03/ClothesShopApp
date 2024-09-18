@@ -1,0 +1,82 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+    @model List<ClothesShopApp.Data.ViewModels.VariantViewModel>
+    var count = 1;
+}
+<div style="margin-left:60px;margin-right:60px;">
+    <div><a asp-action="CreateVariant">Varyant Grubu Ekle</a></div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Varyant Adı</th>
+                <th>Varyant değerleri</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+
+
+                <tr>
+                    <th>@count</th>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td><a asp-action="CreateVariant" asp-route-variantId="@item.Id">varyant değerleri</a></td>
+                    
+                    <td>
+                        <form asp-action="DeleteVariant" method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger">Sil</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="EditVariant" method="get">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-primary">Düzenle</button>
+                        </form>
+                    </td>
+
+
+                </tr>
+
+                count++;
+
+
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+
+            Toast.fire({
+                icon: 'success',
+                title: '@TempData["SuccessMessage"]'
+            });
+        });
+    </script>
+}

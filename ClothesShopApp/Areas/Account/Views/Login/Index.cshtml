@@ -1,0 +1,120 @@
+﻿@using ClothesShopApp.Models
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model LoginViewMdoel
+    Layout = null;
+
+}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modernize Free</title>
+    <link rel="shortcut icon" type="image/png" href="~/assets-login/images/logos/favicon.png" />
+    <link rel="stylesheet" href="~/assets-login/css/styles.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/template/fonts/iconic/css/material-design-iconic-font.min.css">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center w-100">
+                <div class="row justify-content-center w-100">
+                    <div class="col-md-8 col-lg-6 col-xxl-3">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                
+                                <a asp-action="Index" asp-controller="HomePage" asp-area="WebPage" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                                    <img src="~/template/images/icons/logo-01.png" width="180" alt="">
+                                </a>
+                                <p class="text-center">Your Social Campaigns</p>
+                                <form asp-action="Index" method="post">
+                                    <div class="mb-3">
+
+                                        <label for="exampleInputEmail1" class="form-label">E-posta</label>
+                                        <input type="email" class="form-control" asp-for="email" id="exampleInputEmail1" placeholder="Email" value="tamer@gmail.com" required/>
+                                        
+                                    </div>
+                                    <div>
+                                        <label for="exampleInputPassword1" class="form-label">Şifre</label>
+                                    </div>
+                                    <div class="mb-4 d-flex justify-content-center align-items-center">
+                                       
+                                        
+                                        <input type="password" class="form-control" asp-for="password" id="passwordInput" placeholder="Şifre" required />
+                                        <span  id="togglePassword">
+                                            <i class="zmdi zmdi-eye-off" style="height:16px;width:16px;cursor:pointer;margin-left:4px;"></i>
+                                        </span>
+                                        
+                                    </div>
+                                    <span asp-validation-for="email" class="text-danger"></span>
+                                    <div class="d-flex align-items-center justify-content-between mb-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input primary" type="checkbox" asp-for="rememberMe" id="flexCheckChecked" checked>
+                                            <label class="form-check-label text-dark" for="flexCheckChecked">
+                                                Beni Hatırla
+                                            </label>
+                                        </div>
+                                        <a class="text-primary fw-bold" asp-action="ForgotPassword">Şifremi unttum</a>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Giriş Yap</button>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <p class="fs-4 mb-0 fw-bold">Sitemizde Yeni misiniz?</p>
+                                        <a class="text-primary fw-bold ms-2" asp-action="Index" asp-controller="Register" asp-area="Account">Hesap Oluştur</a>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/assets-login/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/assets-login/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/template/vendor/sweetalert/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#togglePassword').on('click', function () {
+                var passwordInput = $('#passwordInput');
+                var icon = $(this).find('i');
+
+                // Şifre alanının türünü kontrol et ve değiştir
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    // İkonu 'göz kapalı' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye-off').addClass('zmdi-eye');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    // İkonu 'göz açık' simgesiyle değiştir
+                    icon.removeClass('zmdi-eye').addClass('zmdi-eye-off');
+
+                }
+            });
+        
+            
+       
+        
+        });
+    </script>
+    @if (TempData["Success"] != null)
+        {
+        <script>
+            $(document).ready(function () {
+            swal("Başarılı", "Şifreniz başarılı bir şekilde güncellendi!", "success");
+                
+            });
+           
+        </script>
+        }
+</body>
+
+</html>

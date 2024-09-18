@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothesShopApp", "ClothesShopApp\ClothesShopApp.csproj", "{7B60054C-E5E3-4930-B99F-222709349C70}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothesShopApp.Business", "ClothesShopApp.Business\ClothesShopApp.Business.csproj", "{9FF536F4-B464-4BB0-A7FE-C4793AB8111F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothesShopApp.Data", "ClothesShopApp.Data\ClothesShopApp.Data.csproj", "{ED08A034-6BD8-4EAE-8CDB-613807C64C85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothesShopApp.Repository", "ClothesShopApp.Repository\ClothesShopApp.Repository.csproj", "{CC334291-1740-49E6-A61D-A68EDE79474D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothesShop.Business.Test", "TestProject1\ClothesShop.Business.Test.csproj", "{94BE6498-F784-4BDF-8C0B-7ABE8177AC91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClothesShop.Api", "ClothesShop.Api\ClothesShop.Api.csproj", "{7E3D2B88-2730-4AF1-AAAD-DD1B4DE25615}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B60054C-E5E3-4930-B99F-222709349C70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B60054C-E5E3-4930-B99F-222709349C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B60054C-E5E3-4930-B99F-222709349C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B60054C-E5E3-4930-B99F-222709349C70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FF536F4-B464-4BB0-A7FE-C4793AB8111F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FF536F4-B464-4BB0-A7FE-C4793AB8111F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FF536F4-B464-4BB0-A7FE-C4793AB8111F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FF536F4-B464-4BB0-A7FE-C4793AB8111F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED08A034-6BD8-4EAE-8CDB-613807C64C85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED08A034-6BD8-4EAE-8CDB-613807C64C85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED08A034-6BD8-4EAE-8CDB-613807C64C85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED08A034-6BD8-4EAE-8CDB-613807C64C85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC334291-1740-49E6-A61D-A68EDE79474D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC334291-1740-49E6-A61D-A68EDE79474D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC334291-1740-49E6-A61D-A68EDE79474D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC334291-1740-49E6-A61D-A68EDE79474D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94BE6498-F784-4BDF-8C0B-7ABE8177AC91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94BE6498-F784-4BDF-8C0B-7ABE8177AC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94BE6498-F784-4BDF-8C0B-7ABE8177AC91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94BE6498-F784-4BDF-8C0B-7ABE8177AC91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E3D2B88-2730-4AF1-AAAD-DD1B4DE25615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E3D2B88-2730-4AF1-AAAD-DD1B4DE25615}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E3D2B88-2730-4AF1-AAAD-DD1B4DE25615}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E3D2B88-2730-4AF1-AAAD-DD1B4DE25615}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2218F708-99FA-4BC4-BC4D-BFDE2D3F0D0B}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://devops.crssoft.com/depot
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ClothesShopApp.Business\\ClothesShopApp.Business.csproj
+		SccProjectName1 = ClothesShopApp.Business
+		SccLocalPath1 = ClothesShopApp.Business
+		SccProjectUniqueName2 = ClothesShopApp.Data\\ClothesShopApp.Data.csproj
+		SccProjectName2 = ClothesShopApp.Data
+		SccLocalPath2 = ClothesShopApp.Data
+		SccProjectUniqueName3 = ClothesShopApp.Repository\\ClothesShopApp.Repository.csproj
+		SccProjectName3 = ClothesShopApp.Repository
+		SccLocalPath3 = ClothesShopApp.Repository
+		SccProjectUniqueName4 = ClothesShopApp\\ClothesShopApp.csproj
+		SccProjectName4 = ClothesShopApp
+		SccLocalPath4 = ClothesShopApp
+		SccProjectUniqueName5 = TestProject1\\ClothesShop.Business.Test.csproj
+		SccProjectName5 = TestProject1
+		SccLocalPath5 = TestProject1
+		SccProjectUniqueName6 = ClothesShop.Api\\ClothesShop.Api.csproj
+		SccProjectName6 = ClothesShop.Api
+		SccLocalPath6 = ClothesShop.Api
+	EndGlobalSection
+EndGlobal

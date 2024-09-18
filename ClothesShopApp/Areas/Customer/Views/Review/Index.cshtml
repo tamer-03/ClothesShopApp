@@ -1,0 +1,184 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+@model ReviewViewModel
+    Layout = "_CustomerLayout";
+}
+<style>
+    .star-rating {
+        direction: rtl;
+        display: inline-flex;
+        font-size: 3rem;
+    }
+
+    .star {
+        cursor: pointer;
+        color: lightgray;
+        transition: color 0.2s;
+    }
+
+        .star.full {
+            color: gold;
+        }
+
+        .star:hover,
+        .star:hover ~ .star {
+            color: gold;
+        }
+
+    /* Message box styling */
+    .review-message {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="bg0 m-t-50 m-b-50 p-b-140">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="block1 p-all-10 d-flex justify-content-center" style="width:700px; height:auto">
+                <div class="w-100">
+                    <input type="hidden" id="ratingInput" name="Rating" />
+                    <input type="hidden" id="commentInput" name="Comment" />
+                    <input type="hidden" id="productId" name="ProductId" value="@Model.product.productId" />
+                    <form id="reviewForm">
+                        
+                        <div class="w-100">
+                            <div class="card-body">
+                                <span>Ürünü Değerlendiriniz:</span>
+                                <div class="star-rating d-flex justify-content-evenly" id="starRating">
+                                    <span class="star" data-value="5">&#9733;</span>
+                                    <span class="star" data-value="4">&#9733;</span>
+                                    <span class="star" data-value="3">&#9733;</span>
+                                    <span class="star" data-value="2">&#9733;</span>
+                                    <span class="star" data-value="1">&#9733;</span>
+                                </div>
+
+                                <div class="review-message">
+                                    <label for="message">Yorum Yap:</label>
+                                    <textarea class="form-control" id="message" rows="4" cols="50"></textarea>
+                                </div>
+
+                                <button id="submitReview" class="btn btn-primary" type="button">Değerlendir</button>
+                            </div>
+                        </div>
+                        
+                    </form>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script>
+        const stars = document.querySelectorAll('.star');
+        let ratingValue = 0;
+
+        // Add event listeners to each star
+        stars.forEach(star => {
+            star.addEventListener('mouseover', onMouseOver);
+            star.addEventListener('click', onClick);
+        });
+
+        function onMouseOver(event) {
+            const value = event.target.getAttribute('data-value');
+            highlightStars(value);
+        }
+
+        function onClick(event) {
+            ratingValue = event.target.getAttribute('data-value');
+            console.log("Seçilen Yıldız:", ratingValue);
+            highlightStars(ratingValue);  // Keep the stars highlighted based on the rating
+        }
+
+        function highlightStars(value) {
+            stars.forEach(star => {
+                star.classList.remove('full');
+            });
+
+            stars.forEach(star => {
+                if (star.getAttribute('data-value') <= value) {
+                    star.classList.add('full');
+                }
+            });
+        }
+        
+        document.getElementById('submitReview').addEventListener('click', () => {
+            const reviewMessage = document.getElementById('message').value;
+            
+            document.getElementById('commentInput').value = reviewMessage;
+            alert(`ürün hakkında değerlendirme yaptğınız için teşekkür ederiz :) \n Puanınız: ${ratingValue}, \n Yorumunuz: ${reviewMessage}`);
+            // You can now submit the review to the server using AJAX or a form submission
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            const $stars = $('.star');
+            const $ratingInput = $('#ratingInput');
+            const $commentInput = $('#commentInput');
+            const $messageTextarea = $('#message');
+
+            let ratingValue = 0;
+
+            // Yıldızlara tıklama işlemi
+            $stars.on('click', function () {
+                console.log(ratingValue);
+                ratingValue = $(this).data('value');
+                console.log(ratingValue);
+                updateStarDisplay();
+            });
+
+            function updateStarDisplay() {
+                $stars.each(function () {
+                    $(this).toggleClass('filled', $(this).data('value') <= ratingValue);
+                });
+                $ratingInput.val(ratingValue); // Rating input alanına yıldız değerini ekle
+            }
+
+            // Formu AJAX ile gönder
+            $('#submitReview').on('click', function () {
+                const formData = {
+                    product: {
+                        productId: $('#productId').val(), // Bu şekilde ProductId'yi JSON'a ekleyin
+                        // Diğer Product özelliklerini buraya ekleyebilirsiniz
+                    },
+                    Rating: $ratingInput.val(),
+                    Comment: $messageTextarea.val()
+                };
+                console.log('Form Data:', formData);
+                $.ajax({
+                    url: '/Customer/Review/Index',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        if (response.success) {
+                            // Başarı durumu
+                            alert('Yorumunuz başarıyla gönderildi!');
+                            // İsterseniz formu temizleyebilirsiniz
+                            $('#reviewForm')[0].reset();
+                        } else {
+                            // Hata durumu
+                            alert('Yorum gönderme sırasında bir hata oluştu.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // AJAX isteği sırasında bir hata oluştu
+                        console.error('AJAX Error:', status, error);
+                        alert('Yorum gönderme sırasında bir hata oluştu.');
+                    }
+                });
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,135 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+@model AdminOrderUserItemsViewModel
+    int count = 1;
+    int totalOrderPrice = 0;
+}
+
+<div style="margin-left:60px;margin-right:60px;">
+    <div class="card mb-0 w-100">
+        <div class="card-body ">
+
+            
+            <form asp-action="Index" method="post">
+
+                <div class="row">
+
+                    <div class="col w-100">
+                        <div class="mb-3">
+                           <h2>Sipraiş Detayları</h2>
+                            <span>@Model.ShippingAddress</span>
+                            <h4 id="currentOrderStatus" style="color:forestgreen">@Model.OrderStatus</h4>
+                        </div>
+                    </div>
+
+                    <div class="col w-100">
+                        <div class="mb-3">
+                            <h2>Kullanıcı Detayları</h2>
+                            <div class="d-flex justify-content-start">
+                                <span>@Model.User.name  @Model.User.lastName</span>
+                                <span>@Model.User.email</span>
+                                <span>@Model.User.phone</span>
+                                <span>@Model.User.IdentityNumber</span>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+
+        </div>
+    </div>
+
+    <div>Kullanıcı Siparişleri</div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th></th>
+                <th>Ürün</th>
+
+                <th>Fiyat</th>
+                <th>Miktar</th>
+                <th>Toplam Fiyat</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Items)
+            {
+                var totoalPrice = 0;
+                totoalPrice = Convert.ToInt32(item.Price) * item.Quantity;
+                totalOrderPrice = Convert.ToInt32(item.Price) * item.Quantity;
+                <tr>
+                    <td>@count</td>
+                    <td><img src="@item.ImageUrl" class="img-thumbnail" style="max-width: 100px; height: auto; "/> </td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>@totoalPrice,00</td>
+
+
+                </tr>
+
+                count++;
+
+
+            }
+            <tr>
+                <td>
+                    @totalOrderPrice
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex">
+        <select name="OrderStatus" id="orderStatusSelect">
+            <option value="Siparişiniz Hazırlanıyor">Siparişiniz Hazırlanıyor"</option>
+            <option value="Şipariş yolda">Şipariş yolda</option>
+            <option value="Şiparişiniz Teslim Edildi">Şiparişiniz Teslim Edildi</option>
+        </select>
+        <button type="submit" class="btn btn-primary " id="upload-status" data-order-id="@Model.OrderId">Kaydet</button>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '#upload-status', function (event) {
+                event.preventDefault();
+                
+
+                var orderId = $(this).data('order-id');
+                var newOrderStatus = $('#orderStatusSelect').val();
+
+                $.ajax({
+                    url: '/Admin/Order/UpdateOrderStatus', // Doğru aksiyona yönlendirin
+                    type: 'POST',
+                    data: { orderId:orderId, orderStatus:newOrderStatus },
+                
+                    success: function (response) {
+                        if (response.success) {
+                            // Sipariş durumu güncellenmişse, ekranda göster
+                            $('#currentOrderStatus').text(response.newStatus);
+                            alert("Sipariş durumu başarıyla güncellendi.");
+                        } else {
+                            alert("Sipariş durumu güncellenemedi: " + response.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Güncelleme işlemi başarısız:", error);
+                        alert("Bir hata oluştu, lütfen tekrar deneyin.");
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,128 @@
+﻿
+
+@{
+    Layout = "_AdminLayout";
+}
+
+@model ClothesShopApp.Data.ViewModels.ProductViewModel
+<div style="margin-left:60px;margin-right:60px;">
+    <h2>Ürün Güncelle</h2>
+
+
+    <form asp-action="EditProduct" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="ProductId" />
+        <input type="hidden" asp-for="CategoryId" />
+        <div class="form-group">
+            <label>Mevcut Kategori</label>
+            <input type="text" value="@Model.categoryPath" class="form-control" readonly />
+        </div>
+
+        
+        <div id="categoryDropdowns" style="margin-bottom:20px">
+
+            @for (int i = 0; i < Model.CategoryLevels.Count; i++)
+            {
+                if (i > Model.SelectedCategoryIds.Count)
+                {
+                    Model.SelectedCategoryIds.Add(null);
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label for="SelectedCategoryIds">Kategori Seçin</label>
+                        <select class="form-control category-select" asp-for="SelectedCategoryIds[i]">
+                            <option value="">-- Select Category --</option>
+                            @foreach (var category in Model.CategoryLevels[i])
+                            {
+                                <option value="@category.Value">@category.Text</option>
+                            }
+                        </select>
+                    </div>
+                }
+
+            }
+        </div>
+
+        <div class="form-group" style="margin-bottom:20px">
+            <label>Ürün Adı</label>
+            <input type="text" asp-for="Name" class="form-control" required />
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+            <label>Fiyat</label>
+            <input type="text" asp-for="price" class="form-control" required />
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+            <label>Stok</label>
+            <input type="text" asp-for="stock" class="form-control" required />
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+            <label>Açıklama</label>
+            <input type="text" asp-for="Description" class="form-control" required />
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+            <label>Mevcut Görseller</label>
+            <div>
+                @for (int i = 0; i < Model.PictureUrl.Count; i++)
+                {
+                    <div class="img-container">
+                        <img src="@Url.Content("~/images/" + Model.PictureUrl[i])" alt="Product Image" class="img-thumbnail" style="max-width: 150px; height: 100px; margin: 5px;" />
+                        Sil <input type="checkbox" name="DeletedImages" value="@Model.PictureIds[i]" />
+                        <input type="hidden" value="@Model.PictureIds[i]" asp-for="PictureIds" />
+                        Güncelle <input type="file" name="UpdatedImages" />
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:20px">
+            <label>Yeni Görseller Ekle</label>
+            <input type="file" name="NewImages" multiple />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+    </form>
+
+
+</div>
+
+
+
+@section Scripts {
+    <script>
+        $(document).on('change', '.category-select', function () {
+            // Category dropdown değiştirildiğinde
+
+            var selectedCategoryId = $(this).val();
+            var dropdownContainer = $('#categoryDropdowns');
+
+            // Alt kategorileri almak için AJAX çağrısı
+            $.ajax({
+                url: '/Product/LoadSubCategories',
+                type: 'GET',
+                data: { parentId: selectedCategoryId },
+                success: function (subCategories) {
+                    // // Eğer mevcutsa, alt dropdown listi kaldır
+
+                    $(this).closest('.form-group').nextAll('.form-group').remove();
+                    // dropdownContainer.find('.category-select').slice(dropdownContainer.index($(this)) + 1).remove();
+
+                    // Eğer alt kategori varsa, yeni bir dropdown list ekle
+                    if (subCategories.length > 0) {
+
+                        var newIndex = dropdownContainer.find('.category-select').length;
+                        var newDropdown = '<div class="form-group"><select class="form-control category-select" name="SelectedCategoryIds[' + newIndex + ']""><option value="">-- Select Category --</option>';
+
+                        $.each(subCategories, function (index, category) {
+                            newDropdown += '<option value="' + category.value + '">' + category.text + '</option>';
+                        });
+
+                        newDropdown += '</select></div>';
+
+                        dropdownContainer.append(newDropdown);
+                    }
+                }
+            });
+
+        });
+    </script>
+}

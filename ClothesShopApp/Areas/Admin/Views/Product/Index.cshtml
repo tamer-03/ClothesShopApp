@@ -1,0 +1,113 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+    int count = 1;
+}
+@model List<ClothesShopApp.Data.ViewModels.ProductViewModel>
+<div style="margin-left:60px;margin-right:60px;">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Ürünler</th>
+                <th>Fiyatlar</th>
+                <th>Stoklar</th>
+                <th>Açıklamalar</th>
+                <th>Kategoriler</th>
+                <th>Görseller</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+
+
+                <tr class="product-item">
+                    <th>@count</th>
+                    <td>@item.Name</td>
+                    <td>@item.price</td>
+                    <td>@item.stock</td>
+                    <td class="description">@item.Description</td>
+                    <td>@item.categoryPath</td>
+                    <td>
+                        @foreach (var image in item.PictureUrl)
+                        {
+                            <img src="~/images/@image" alt="@item.Name" class="img-thumbnail" style="max-width: 100px; height: auto; margin: 5px;" />
+                        }
+                    </td>
+                    <td>
+                        <form class="delete-product-form" asp-action="DeleteProduct" method="post">
+                            <input type="hidden" name="id" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-danger">Sil</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="EditProduct" method="get">
+                            <input type="hidden" name="id" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-primary">Düzenle</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a asp-action="AddVariantsToProduct" asp-route-productId="@item.ProductId">Varyasyonlar</a>
+                    </td>
+
+
+                </tr>
+
+                count++;
+
+
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).off('submit', '.delete-product-form').on('submit', '.delete-product-form', function (e) {
+                e.preventDefault(); // Formun varsayılan submit işlemini engelle
+
+                var form = $(this);
+                var formData = form.serialize(); // Form verilerini seri hale getir
+                var url = form.attr('action'); // Formun action URL'sini al
+
+                if (confirm("Silmek istediğinize emin misiniz?")) {
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: formData,
+                        success: function (result) {
+                            // Silme işlemi başarılı ise yapılacak işlemler
+                            alert('Ürün silindi.');
+                            form.closest('.product-item').remove(); // Kategoriyi sayfadan kaldır
+                        },
+                        error: function () {
+                            // Hata durumunda yapılacak işlemler
+                            alert('Silme işlemi başarısız oldu.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('td.description').forEach(function (td) {
+                let content = td.textContent;
+                if (content.length > 16) {
+                    let formattedText = content.slice(0, 16) + "<br/>" + content.slice(16);
+                    td.innerHTML = formattedText;
+                }
+            });
+        });
+    </script>
+
+}
