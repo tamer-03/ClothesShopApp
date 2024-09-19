@@ -13,10 +13,10 @@ namespace ClothesShopApp.Data.ViewModels
         public int OrderId { get; set; } 
         public User User { get; set; }
             
-        public string ShippingAddress {  get; set; } 
         public string OrderDate {  get; set; }
         public string OrderStatus {  get; set; }
         public string TotalPrice {  get; set; }
+        public Address address { get; set; }
         
         public List<OrderItemViewModel> Items { get; set; }
     }

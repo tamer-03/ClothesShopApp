@@ -88,7 +88,7 @@ namespace ClothesShopApp.Business
 					OrderStatus = item.OrderStatus,
 					OrderDate = item.OrderDateTime.ToString("yyyy-MM-dd HH-mm-ss"),
 					TotalPrice = item.totalPrice.ToString(),
-					ShippingAddress = item.ShippingAddress,
+					address = item.address,
 					Items = item.orderItems.Select(o => new OrderItemViewModel
 					{
 						ProductName = o.product.name,

@@ -18,7 +18,7 @@ namespace ClothesShopApp.Data.Entity
 		public DateTime OrderDateTime { get; set; }
 		public ICollection<OrderItem> orderItems { get; set; }
 		public string OrderStatus { get; set; }
-		public string ShippingAddress { get; set; }
+		public string? ShippingAddress { get; set; }
 		public Address address { get; set; }
 
 

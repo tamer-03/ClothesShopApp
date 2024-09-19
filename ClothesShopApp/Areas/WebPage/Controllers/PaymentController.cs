@@ -210,7 +210,8 @@ namespace ClothesShopApp.Areas.WebPage.Controllers
 							totalPrice = cart.Cart.Sum(item => item.Price * item.Quantity),
 							OrderDateTime = DateTime.Now,
 							OrderStatus = "sipariş alındı",
-							ShippingAddress = address.addressHeader + address.addresses + address.phone,
+							
+							address = address,
 
 							orderItems = cart.Cart.Select(item => new Data.Entity.OrderItem
 							{

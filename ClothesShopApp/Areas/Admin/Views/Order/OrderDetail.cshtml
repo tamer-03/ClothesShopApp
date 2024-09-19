@@ -3,9 +3,10 @@
 *@
 @{
     Layout = "_AdminLayout";
-@model AdminOrderUserItemsViewModel
     int count = 1;
     int totalOrderPrice = 0;
+@model AdminOrderUserItemsViewModel
+   
 }
 
 <div style="margin-left:60px;margin-right:60px;">
@@ -20,19 +21,22 @@
                     <div class="col w-100">
                         <div class="mb-3">
                            <h2>Sipraiş Detayları</h2>
-                            <span>@Model.ShippingAddress</span>
-                            <h4 id="currentOrderStatus" style="color:forestgreen">@Model.OrderStatus</h4>
+                            <h5>Adres Başığı: @Model.address.addressHeader</h5>
+                            <h5>Adres Detayı: @Model.address.addresses</h5>
+                            <h5>Alıcının Adı Soyadı: @Model.address.firstName @Model.address.lastName</h5>
+                            <h5>Alıcının Telefonu: @Model.address.phone</h5>
+                            <h5 id="currentOrderStatus" style="color:forestgreen">Sipariş Durumu: @Model.OrderStatus</h5>
                         </div>
                     </div>
 
                     <div class="col w-100">
                         <div class="mb-3">
                             <h2>Kullanıcı Detayları</h2>
-                            <div class="d-flex justify-content-start">
-                                <span>@Model.User.name  @Model.User.lastName</span>
-                                <span>@Model.User.email</span>
-                                <span>@Model.User.phone</span>
-                                <span>@Model.User.IdentityNumber</span>
+                            <div class="justify-content-start">
+                                <h5>Ad Soyad: @Model.User.name  @Model.User.lastName</h5>
+                                <h5>E-Posta: @Model.User.email</h5>
+                                <h5>Telefon: @Model.User.phone</h5>
+                                <h5>T.C: @Model.User.IdentityNumber</h5>
                             </div>
                             
 

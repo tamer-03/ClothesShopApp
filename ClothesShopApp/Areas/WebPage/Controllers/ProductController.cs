@@ -2,6 +2,7 @@
 using ClothesShopApp.Data.Entity;
 using ClothesShopApp.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ClothesShopApp.Areas.WebPage.Controllers
 {
@@ -108,9 +109,12 @@ namespace ClothesShopApp.Areas.WebPage.Controllers
             var products = _productService.GetAllProducts();
             if (categoryId.HasValue)
             {
-                
-                products = products.Where(p => p.categoryId == categoryId.Value);
-                
+                var subCategories = _categoryService.GetParentCategory(categoryId.Value);
+                var categoryIds = subCategories.Select(c => c.categoryId).ToList();
+
+                //products = products.Where(p => p.categoryId == categoryId.Value);
+                products = products.Where(p => categoryIds.Contains(p.categoryId?? 1));
+
             }
             // Apply filtering by price
             if (minPrice.HasValue)
@@ -133,7 +137,7 @@ namespace ClothesShopApp.Areas.WebPage.Controllers
                     products = products.OrderByDescending(p => p.price);
                     break;
                 default:
-                    break;
+                    break; 
             }
             
             var product = products.ToList();
